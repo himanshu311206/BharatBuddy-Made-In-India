@@ -1,0 +1,21 @@
+# Node / Vite
+**/node_modules/
+**/dist/
+**/dist-ssr/
+*.local
+
+# Java / Maven
+**/target/
+*.class
+*.jar
+*.war
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.run.log
+frontend-run.log
+backend-run.log
