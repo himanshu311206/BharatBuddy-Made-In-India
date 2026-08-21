@@ -6,6 +6,8 @@ import UserCard from '../components/UserCard';
 import UserProfileModal from '../components/UserProfileModal';
 import { LoadingSkeleton, EmptyState, ErrorState } from '../components/States';
 import { ReportModal, BlockModal } from '../components/Modals';
+import BuddyOrbit3D from '../components/BuddyOrbit3D';
+import Interactive3DCard from '../components/Interactive3DCard';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -89,6 +91,9 @@ export default function DashboardPage() {
 
       {/* MAIN HERO CARD */}
       <section className="hero-find-card">
+        <div style={{ marginBottom: '20px' }}>
+          <BuddyOrbit3D candidates={onlineUsers} />
+        </div>
         <div className="hero-find-content">
           <span className="brand-badge-pill">BharatBuddy Matchmaker</span>
           <h2>Find Your BharatBuddy</h2>
@@ -140,13 +145,14 @@ export default function DashboardPage() {
         ) : (
           <div className="user-cards-grid">
             {onlineUsers.map((onlineUser) => (
-              <UserCard
-                key={onlineUser.id}
-                user={onlineUser}
-                currentUser={user}
-                onViewProfile={(u) => setSelectedProfileUser(u)}
-                onConnect={(u) => handleConnect(u)}
-              />
+              <Interactive3DCard key={onlineUser.id}>
+                <UserCard
+                  user={onlineUser}
+                  currentUser={user}
+                  onViewProfile={(u) => setSelectedProfileUser(u)}
+                  onConnect={(u) => handleConnect(u)}
+                />
+              </Interactive3DCard>
             ))}
           </div>
         )}

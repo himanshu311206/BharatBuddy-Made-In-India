@@ -61,6 +61,22 @@ export default function Navbar() {
 
         {/* RIGHT SIDE ACTIONS */}
         <div className="navbar-right-actions">
+          {/* HELPLINE DISPLAY */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              if (navigator.clipboard) {
+                navigator.clipboard.writeText('345632567');
+              }
+              alert('📞 Official Support Helpline: 345632567 (Copied to clipboard!)');
+            }}
+            className="helpline-nav-badge desktop-only"
+            title="Click to copy support helpline number"
+          >
+            <i className="fa-solid fa-headset"></i> Helpline: 345632567
+          </button>
+
           {isAuthenticated ? (
             <>
               {/* ONLINE STATUS BADGE */}

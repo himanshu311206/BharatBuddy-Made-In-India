@@ -1,4 +1,5 @@
 import Navbar from './Navbar';
+import AiAssistantWidget from './AiAssistantWidget';
 
 export default function Layout({ children }) {
   return (
@@ -10,9 +11,10 @@ export default function Layout({ children }) {
           <p>
             Designed & Developed with ❤️ by <span className="creator-highlight">Himanshu</span>
           </p>
-          <span className="footer-subtext">BharatBuddy 🇮🇳 • Connecting India through Technology</span>
+          <span className="footer-subtext">BharatBuddy 🇮🇳 • Connecting India through Technology • Helpline: 345632567</span>
         </div>
       </footer>
+      <AiAssistantWidget />
     </div>
   );
 }

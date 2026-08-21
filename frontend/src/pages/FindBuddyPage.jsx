@@ -6,6 +6,7 @@ import UserAvatar from '../components/UserAvatar';
 import { InterestChip, LanguageChip } from '../components/Chips';
 import UserProfileModal from '../components/UserProfileModal';
 import { ReportModal, BlockModal } from '../components/Modals';
+import BuddyOrbit3D from '../components/BuddyOrbit3D';
 
 export default function FindBuddyPage() {
   const navigate = useNavigate();
@@ -113,8 +114,8 @@ export default function FindBuddyPage() {
 
       {!loading && !result && (
         <div className="find-starter-box">
-          <div className="starter-radar-icon">
-            <i className="fa-solid fa-compass"></i>
+          <div style={{ width: '100%', marginBottom: '24px' }}>
+            <BuddyOrbit3D />
           </div>
           <h3>Ready to discover someone new?</h3>
           <p>Our heuristic matching engine evaluates mutual interests, language compatibility, and state proximity.</p>

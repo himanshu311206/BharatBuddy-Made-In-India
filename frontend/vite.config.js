@@ -7,4 +7,23 @@ export default defineConfig({
   define: {
     global: 'globalThis',
   },
+  server: {
+    port: 5173,
+    host: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+      '/ws': {
+        target: 'http://localhost:8080',
+        ws: true,
+        changeOrigin: true,
+      },
+      '/h2-console': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+    },
+  },
 })

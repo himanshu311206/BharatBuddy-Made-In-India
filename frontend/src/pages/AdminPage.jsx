@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
+import Interactive3DCard from '../components/Interactive3DCard';
 
 export default function AdminPage() {
   const [stats, setStats] = useState({ totalUsers: 0, activeUsers: 0, matches: 0, reports: [], reportedUsers: [] });
   const [message, setMessage] = useState('');
+  const [apiLatency, setApiLatency] = useState(null);
 
   const load = async () => {
+    const startTime = performance.now();
     try {
       const { data } = await api.get('/admin/dashboard');
+      const endTime = performance.now();
+      setApiLatency(Math.round(endTime - startTime));
       setStats(data.data || { totalUsers: 0, activeUsers: 0, matches: 0, reports: [], reportedUsers: [] });
     } catch (err) {
       setMessage('Failed to load admin dashboard: ' + (err?.response?.data?.message || err.message));
@@ -63,44 +68,50 @@ export default function AdminPage() {
 
       {/* 3D METRIC TILES */}
       <div className="dashboard-grid-3d">
-        <div className="dash-tile-3d glass-panel">
-          <i className="fa-solid fa-users tile-watermark"></i>
-          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
-            Registered Users
-          </span>
-          <strong style={{ fontSize: '2.5rem', fontFamily: 'var(--font-heading)' }}>
-            {stats.totalUsers}
-          </strong>
-          <span style={{ fontSize: '0.82rem', color: '#16A34A', fontWeight: 600 }}>
-            ● Verified in Database
-          </span>
-        </div>
+        <Interactive3DCard>
+          <div className="dash-tile-3d glass-panel" style={{ height: '100%' }}>
+            <i className="fa-solid fa-users tile-watermark"></i>
+            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
+              Registered Users
+            </span>
+            <strong style={{ fontSize: '2.5rem', fontFamily: 'var(--font-heading)' }}>
+              {stats.totalUsers}
+            </strong>
+            <span style={{ fontSize: '0.82rem', color: '#16A34A', fontWeight: 600 }}>
+              ● Verified in Database
+            </span>
+          </div>
+        </Interactive3DCard>
 
-        <div className="dash-tile-3d glass-panel">
-          <i className="fa-solid fa-signal tile-watermark"></i>
-          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
-            Active Online Buddies
-          </span>
-          <strong style={{ fontSize: '2.5rem', fontFamily: 'var(--font-heading)' }}>
-            {stats.activeUsers}
-          </strong>
-          <span style={{ fontSize: '0.82rem', color: '#2563EB', fontWeight: 600 }}>
-            ● Real-Time Ready
-          </span>
-        </div>
+        <Interactive3DCard>
+          <div className="dash-tile-3d glass-panel" style={{ height: '100%' }}>
+            <i className="fa-solid fa-signal tile-watermark"></i>
+            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
+              Active Online Buddies
+            </span>
+            <strong style={{ fontSize: '2.5rem', fontFamily: 'var(--font-heading)' }}>
+              {stats.activeUsers}
+            </strong>
+            <span style={{ fontSize: '0.82rem', color: '#2563EB', fontWeight: 600 }}>
+              ● Real-Time WebSocket Ready
+            </span>
+          </div>
+        </Interactive3DCard>
 
-        <div className="dash-tile-3d glass-panel">
-          <i className="fa-solid fa-heart tile-watermark"></i>
-          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
-            Total 3D Matches
-          </span>
-          <strong style={{ fontSize: '2.5rem', fontFamily: 'var(--font-heading)' }}>
-            {stats.matches || 0}
-          </strong>
-          <span style={{ fontSize: '0.82rem', color: '#D97706', fontWeight: 600 }}>
-            ● Connections Formed
-          </span>
-        </div>
+        <Interactive3DCard>
+          <div className="dash-tile-3d glass-panel" style={{ height: '100%' }}>
+            <i className="fa-solid fa-bolt tile-watermark"></i>
+            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
+              API Ping Latency
+            </span>
+            <strong style={{ fontSize: '2.5rem', fontFamily: 'var(--font-heading)', color: '#6366F1' }}>
+              {apiLatency !== null ? `${apiLatency} ms` : 'Testing...'}
+            </strong>
+            <span style={{ fontSize: '0.82rem', color: apiLatency < 100 ? '#16A34A' : '#D97706', fontWeight: 600 }}>
+              {apiLatency < 100 ? '⚡ Ultra Low Latency' : '● Operational'}
+            </span>
+          </div>
+        </Interactive3DCard>
       </div>
 
       {/* REPORTS TRIAGE */}

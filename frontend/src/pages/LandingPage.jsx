@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Globe3DCanvas from '../components/Globe3DCanvas';
+import Interactive3DCard from '../components/Interactive3DCard';
 
 const features = [
   {
@@ -93,7 +95,11 @@ export default function LandingPage() {
         </div>
 
         {/* 3D Mockup Visual */}
-        <div className="hero-3d-visual">
+        <div className="hero-3d-visual" style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ width: '100%', height: '320px', marginBottom: '-40px' }}>
+            <Globe3DCanvas />
+          </div>
+
           <div className="floating-3d-tag tag-pos-1">
             <span style={{ fontSize: '1.2rem' }}>🎮</span>
             <div>
@@ -110,7 +116,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="hero-card-stack">
+          <Interactive3DCard style={{ width: '100%', maxWidth: '380px' }}>
             <div className="hero-3d-main-card">
               <div className="hero-card-header">
                 <span className="brand-badge">MATCH CANDIDATE</span>
@@ -146,7 +152,7 @@ export default function LandingPage() {
                 <span className="pill-tag-3d">🗣️ Hindi & English</span>
               </div>
             </div>
-          </div>
+          </Interactive3DCard>
         </div>
       </section>
 
@@ -160,13 +166,15 @@ export default function LandingPage() {
 
         <div className="features-3d-grid">
           {features.map((feat, idx) => (
-            <div key={idx} className="feature-3d-card">
-              <div className="feature-icon-box" style={{ background: feat.color, color: 'white' }}>
-                <i className={feat.icon}></i>
+            <Interactive3DCard key={idx}>
+              <div className="feature-3d-card" style={{ height: '100%' }}>
+                <div className="feature-icon-box" style={{ background: feat.color, color: 'white' }}>
+                  <i className={feat.icon}></i>
+                </div>
+                <h3>{feat.title}</h3>
+                <p>{feat.desc}</p>
               </div>
-              <h3>{feat.title}</h3>
-              <p>{feat.desc}</p>
-            </div>
+            </Interactive3DCard>
           ))}
         </div>
       </section>
