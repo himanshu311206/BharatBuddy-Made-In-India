@@ -5,6 +5,7 @@ import com.bharatbuddy.backend.entity.User;
 import com.bharatbuddy.backend.repository.MatchRepository;
 import com.bharatbuddy.backend.repository.ReportRepository;
 import com.bharatbuddy.backend.repository.UserRepository;
+import com.bharatbuddy.backend.util.UserMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,11 @@ public class AdminController {
         Map<String, Object> stats = new HashMap<>();
         stats.put("totalUsers", userRepository.count());
         stats.put("activeUsers", userRepository.findOnlineUsers().size());
+        stats.put("suspendedUsers", userRepository.findAll().stream().filter(User::isSuspended).count());
         stats.put("matches", matchRepository.count());
+        stats.put("totalReports", reportRepository.count());
         stats.put("reports", reportRepository.findByResolvedFalseOrderByCreatedAtDesc());
+        stats.put("users", userRepository.findAll().stream().map(UserMapper::toProfileDto).toList());
         stats.put("reportedUsers", reportRepository.findByResolvedFalseOrderByCreatedAtDesc().stream()
                 .filter(report -> report.getReportedUser() != null)
                 .map(report -> report.getReportedUser().getEmail())

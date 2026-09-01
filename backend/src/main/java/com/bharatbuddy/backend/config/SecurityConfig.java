@@ -1,6 +1,7 @@
 package com.bharatbuddy.backend.config;
 
 import com.bharatbuddy.backend.security.JwtAuthenticationFilter;
+import com.bharatbuddy.backend.security.RateLimitingFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,12 +28,14 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final RateLimitingFilter rateLimitingFilter;
 
     @Value("${app.cors.allowed-origins:http://localhost:5173,http://127.0.0.1:5173}")
     private String allowedOrigins;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, RateLimitingFilter rateLimitingFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.rateLimitingFilter = rateLimitingFilter;
     }
 
     @Bean
@@ -42,9 +45,10 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/api/ai/**", "/error", "/ws/**", "/topic/**", "/app/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/ai/**", "/api/upload/**", "/uploads/**", "/error", "/ws/**", "/topic/**", "/app/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
+            .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

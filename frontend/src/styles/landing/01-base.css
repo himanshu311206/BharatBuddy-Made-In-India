@@ -1,0 +1,285 @@
+/* ============================================================
+   BharatBuddy Landing — 01 · Base
+   ============================================================ */
+
+.bb-landing {
+  --bb-bg: #05060b;
+  --bb-bg-2: #0a0c15;
+  --bb-panel: rgba(255, 255, 255, 0.035);
+  --bb-panel-2: rgba(255, 255, 255, 0.06);
+  --bb-line: rgba(255, 255, 255, 0.09);
+  --bb-primary: #8b7bff;
+  --bb-primary-2: #4f7cff;
+  --bb-primary-soft: rgba(139, 123, 255, 0.16);
+  --bb-accent: #ff9f5c;
+  --bb-mint: #54d6a0;
+  --bb-text: #edeef5;
+  --bb-muted: #9aa0b6;
+  --bb-faint: #5b6176;
+  --bb-font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --bb-font-body: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  color: var(--bb-text);
+  background: var(--bb-bg);
+  font-family: var(--bb-font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+
+/* dark document chrome behind the landing */
+body.bb-landing-doc {
+  background: #05060b;
+}
+body.bb-landing-doc .ambient-glow {
+  opacity: 0.12;
+  filter: blur(120px);
+}
+
+.bb-landing__main {
+  position: relative;
+  z-index: 1;
+}
+
+/* shared display type */
+.bb-display {
+  font-family: var(--bb-font-display);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+.bb-display > span {
+  background: linear-gradient(100deg, #a89cff 0%, #8b7bff 40%, #4f7cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* eyebrow labels */
+.bb-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bb-muted);
+}
+.bb-eyebrow::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--bb-primary), transparent);
+}
+.bb-eyebrow--center {
+  justify-content: center;
+}
+.bb-eyebrow--center::after {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(270deg, var(--bb-primary), transparent);
+}
+
+/* ============ buttons ============ */
+.bb-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--bb-font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 15px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+.bb-btn--primary {
+  color: #fff;
+  background: linear-gradient(120deg, #7a66ff 0%, #5b6bff 55%, #4f7cff 100%);
+  box-shadow: 0 10px 34px -8px rgba(99, 103, 255, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.bb-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 44px -8px rgba(99, 103, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.bb-btn--ghost {
+  color: var(--bb-text);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.bb-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.26);
+  transform: translateY(-2px);
+}
+.bb-btn--lg { padding: 17px 34px; font-size: 1.02rem; }
+.bb-btn--xl { padding: 20px 42px; font-size: 1.1rem; }
+.bb-btn--sm { padding: 11px 22px; font-size: 0.92rem; }
+.bb-btn__arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bb-btn:hover .bb-btn__arrow { transform: translateX(5px); }
+.bb-btn__play {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #a89cff;
+  padding-left: 2px;
+}
+
+/* magnetic wrapper keeps layout intact */
+.bb-magnetic {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* inner element is the one gsap actually moves; it stays in flow so layout is unaffected */
+.bb-magnetic__inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ============ scroll progress ============ */
+.bb-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  z-index: 3000;
+  transform-origin: left;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #8b7bff, #4f7cff, #ff9f5c);
+  pointer-events: none;
+}
+/* ============ custom cursor ============ */
+html.bb-cursor-on,
+html.bb-cursor-on a,
+html.bb-cursor-on button,
+html.bb-cursor-on * { cursor: none; }
+
+.bb-cursor-dot,
+.bb-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4000;
+  pointer-events: none;
+  border-radius: 50%;
+  will-change: transform;
+}
+.bb-cursor-dot {
+  width: 7px;
+  height: 7px;
+  background: #b3a9ff;
+  box-shadow: 0 0 12px 2px rgba(139, 123, 255, 0.7);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+}
+.bb-cursor-dot--hover {
+  width: 0;
+  height: 0;
+}
+.bb-cursor-ring {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(151, 141, 255, 0.55);
+  background: rgba(139, 123, 255, 0.04);
+  backdrop-filter: blur(1px);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1), height 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, background 0.3s ease, opacity 0.3s ease;
+}
+.bb-cursor-ring--hover {
+  width: 62px;
+  height: 62px;
+  border-color: rgba(168, 156, 255, 0.95);
+  background: rgba(139, 123, 255, 0.1);
+}
+.bb-cursor-ring--down {
+  transform-origin: center;
+  scale: 0.86;
+}
+@media (hover: none), (pointer: coarse) {
+  .bb-cursor-dot, .bb-cursor-ring { display: none; }
+  html.bb-cursor-on, html.bb-cursor-on * { cursor: auto; }
+}
+
+/* ============ preloader ============ */
+.bb-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(60% 50% at 50% 45%, rgba(99, 103, 255, 0.1), transparent 70%),
+    var(--bb-bg);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.bb-preloader--leave {
+  opacity: 0;
+  visibility: hidden;
+}
+.bb-preloader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.bb-preloader__mark {
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  border-radius: 28px;
+  background: rgba(139, 123, 255, 0.08);
+  border: 1px solid rgba(139, 123, 255, 0.22);
+  box-shadow: 0 0 60px -10px rgba(99, 103, 255, 0.45);
+  animation: bb-pulse-glow 1.6s ease-in-out infinite;
+}
+.bb-preloader__name {
+  font-family: var(--bb-font-display);
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.bb-preloader__name span {
+  background: linear-gradient(100deg, #a89cff, #4f7cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.bb-preloader__text {
+  font-size: 0.85rem;
+  color: var(--bb-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.bb-dots { display: inline-flex; gap: 3px; margin-left: 4px; }
+.bb-dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--bb-primary);
+  animation: bb-dot-blink 1.2s infinite;
+}
+.bb-dots i:nth-child(2) { animation-delay: 0.2s; }
+.bb-dots i:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bb-pulse-glow {
+  0%, 100% { box-shadow: 0 0 46px -12px rgba(99, 103, 255, 0.4); transform: scale(1); }
+  50% { box-shadow: 0 0 80px -8px rgba(99, 103, 255, 0.65); transform: scale(1.04); }
+}
+@keyframes bb-dot-blink {
+  0%, 100% { opacity: 0.25; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+}

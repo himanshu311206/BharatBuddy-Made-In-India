@@ -56,6 +56,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse(false, ex.getMessage(), null));
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiResponse> handleIllegalState(IllegalStateException ex) {
+        logger.warn("Email delivery / state error: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ApiResponse(false, ex.getMessage(), null));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleGeneral(Exception ex) {
         logger.error("Unhandled exception occurred", ex);

@@ -7,8 +7,10 @@ import com.bharatbuddy.backend.entity.User;
 import com.bharatbuddy.backend.repository.BlockRepository;
 import com.bharatbuddy.backend.repository.ReportRepository;
 import com.bharatbuddy.backend.repository.UserRepository;
+import com.bharatbuddy.backend.service.EmailService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +21,16 @@ public class SafetyController {
     private final UserRepository userRepository;
     private final BlockRepository blockRepository;
     private final ReportRepository reportRepository;
+    private final EmailService emailService;
 
-    public SafetyController(UserRepository userRepository, BlockRepository blockRepository, ReportRepository reportRepository) {
+    @Value("${app.admin.email}")
+    private String adminEmail;
+
+    public SafetyController(UserRepository userRepository, BlockRepository blockRepository, ReportRepository reportRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.blockRepository = blockRepository;
         this.reportRepository = reportRepository;
+        this.emailService = emailService;
     }
 
     @PostMapping("/users/{id}/block")
@@ -45,9 +52,19 @@ public class SafetyController {
     public ApiResponse reportUser(@RequestBody Report report) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User reporter = userRepository.findByEmail(auth.getName()).orElseThrow();
+        if (report.getReportedUser() == null || report.getReportedUser().getId() == null) {
+            throw new IllegalArgumentException("Reported user is required.");
+        }
+        User reportedUser = userRepository.findById(report.getReportedUser().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Reported user not found."));
+        if (reporter.getId().equals(reportedUser.getId())) {
+            throw new IllegalArgumentException("You cannot report your own account.");
+        }
         report.setReporter(reporter);
-        reportRepository.save(report);
-        return new ApiResponse(true, "Report submitted.", report);
+        report.setReportedUser(reportedUser);
+        Report savedReport = reportRepository.save(report);
+        emailService.sendReportNotification(adminEmail, savedReport);
+        return new ApiResponse(true, "Report submitted. The moderation team has been notified.", savedReport);
     }
 
     @DeleteMapping("/users/me")

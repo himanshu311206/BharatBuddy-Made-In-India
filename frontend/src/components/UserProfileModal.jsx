@@ -36,6 +36,11 @@ export default function UserProfileModal({ user, currentUser, isOpen, onClose, o
           />
           <h2 className="modal-profile-name">
             {user.name} {user.age ? `, ${user.age}` : ''}
+            {user.verified !== false && (
+              <span className="verified-badge-pill" style={{ marginLeft: '8px', fontSize: '13px' }} title="Verified Safe Profile">
+                <i className="fa-solid fa-shield-check" style={{ color: '#10b981', marginRight: '3px' }}></i> Verified
+              </span>
+            )}
           </h2>
           <p className="modal-profile-state">
             <i className="fa-solid fa-location-dot"></i> {user.state || 'India'}

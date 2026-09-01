@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
-import RegisterPage from './pages/RegisterPage';
+import RegisterCinemaPage from './pages/RegisterCinemaPage';
 import OnboardingPage from './pages/OnboardingPage';
 import DashboardPage from './pages/DashboardPage';
 import FindBuddyPage from './pages/FindBuddyPage';
@@ -23,7 +23,7 @@ function AppRoutes() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <AuthPage mode="login" />} />
-          <Route path="/register" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <RegisterPage />} />
+          <Route path="/register" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <RegisterCinemaPage />} />
           <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/find" element={<ProtectedRoute><FindBuddyPage /></ProtectedRoute>} />

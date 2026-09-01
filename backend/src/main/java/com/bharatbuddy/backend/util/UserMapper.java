@@ -16,12 +16,14 @@ public final class UserMapper {
         dto.setId(user.getId());
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
+        dto.setPhone(user.getPhone());
         dto.setAge(user.getAge());
         dto.setState(user.getState());
         dto.setBio(user.getBio());
         dto.setProfileImage(user.getProfileImage());
         dto.setOnline(user.isOnline());
         dto.setSuspended(user.isSuspended());
+        dto.setVerified(user.isVerified());
         dto.setCreatedAt(user.getCreatedAt());
         dto.setRoles(user.getRoles().stream().map(Enum::name).collect(Collectors.toSet()));
         dto.setInterests(user.getUserInterests() == null ? Set.of() : user.getUserInterests().stream()

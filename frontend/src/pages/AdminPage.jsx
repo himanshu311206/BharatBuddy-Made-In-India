@@ -3,7 +3,7 @@ import api from '../services/api';
 import Interactive3DCard from '../components/Interactive3DCard';
 
 export default function AdminPage() {
-  const [stats, setStats] = useState({ totalUsers: 0, activeUsers: 0, matches: 0, reports: [], reportedUsers: [] });
+  const [stats, setStats] = useState({ totalUsers: 0, activeUsers: 0, suspendedUsers: 0, totalReports: 0, matches: 0, reports: [], users: [] });
   const [message, setMessage] = useState('');
   const [apiLatency, setApiLatency] = useState(null);
 
@@ -13,7 +13,7 @@ export default function AdminPage() {
       const { data } = await api.get('/admin/dashboard');
       const endTime = performance.now();
       setApiLatency(Math.round(endTime - startTime));
-      setStats(data.data || { totalUsers: 0, activeUsers: 0, matches: 0, reports: [], reportedUsers: [] });
+      setStats(data.data || { totalUsers: 0, activeUsers: 0, suspendedUsers: 0, totalReports: 0, matches: 0, reports: [], users: [] });
     } catch (err) {
       setMessage('Failed to load admin dashboard: ' + (err?.response?.data?.message || err.message));
     }
@@ -85,6 +85,21 @@ export default function AdminPage() {
 
         <Interactive3DCard>
           <div className="dash-tile-3d glass-panel" style={{ height: '100%' }}>
+            <i className="fa-solid fa-flag tile-watermark"></i>
+            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
+              All Reports
+            </span>
+            <strong style={{ fontSize: '2.5rem', fontFamily: 'var(--font-heading)', color: '#DC2626' }}>
+              {stats.totalReports}
+            </strong>
+            <span style={{ fontSize: '0.82rem', color: '#B91C1C', fontWeight: 600 }}>
+              {stats.reports?.length || 0} pending review
+            </span>
+          </div>
+        </Interactive3DCard>
+
+        <Interactive3DCard>
+          <div className="dash-tile-3d glass-panel" style={{ height: '100%' }}>
             <i className="fa-solid fa-signal tile-watermark"></i>
             <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
               Active Online Buddies
@@ -112,6 +127,36 @@ export default function AdminPage() {
             </span>
           </div>
         </Interactive3DCard>
+      </div>
+
+      {/* USER DIRECTORY */}
+      <div className="glass-panel admin-user-directory" style={{ padding: '32px', marginTop: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+          <div>
+            <h2 style={{ fontSize: '1.4rem' }}>Community Directory</h2>
+            <p style={{ color: '#64748B', fontSize: '0.88rem', marginTop: '4px' }}>Every registered account and current moderation status.</p>
+          </div>
+          <span className="brand-badge">{stats.suspendedUsers || 0} blocked</span>
+        </div>
+        <div className="admin-user-table-wrap">
+          <table className="admin-user-table">
+            <thead>
+              <tr><th>User</th><th>Contact</th><th>Location</th><th>Status</th><th>Joined</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              {(stats.users || []).map((communityUser) => (
+                <tr key={communityUser.id}>
+                  <td><strong>{communityUser.name || 'Unnamed user'}</strong></td>
+                  <td><span>{communityUser.email}</span><small>{communityUser.phone || 'No phone'}</small></td>
+                  <td>{communityUser.state || 'India'}</td>
+                  <td><span className={`admin-status ${communityUser.suspended ? 'blocked' : communityUser.online ? 'online' : 'offline'}`}><i className="fa-solid fa-circle"></i> {communityUser.suspended ? 'Blocked' : communityUser.online ? 'Active' : 'Offline'}</span></td>
+                  <td>{communityUser.createdAt ? new Date(communityUser.createdAt).toLocaleDateString() : '-'}</td>
+                  <td>{communityUser.suspended ? <span className="admin-muted-action">Blocked</span> : <button className="btn-3d btn-3d-secondary small danger" onClick={() => handleSuspend(communityUser.id, communityUser.email)}><i className="fa-solid fa-ban"></i> Block</button>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* REPORTS TRIAGE */}

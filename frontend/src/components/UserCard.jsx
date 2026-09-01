@@ -34,6 +34,11 @@ export default function UserCard({ user, currentUser, onViewProfile, onConnect }
         <div className="user-card-meta">
           <div className="user-card-name-row">
             <h4 className="user-card-name">{user.name}</h4>
+            {user.verified !== false && (
+              <span className="verified-badge-pill" title="Verified Safe Profile">
+                <i className="fa-solid fa-shield-check" style={{ color: '#10b981', marginRight: '3px' }}></i> Verified
+              </span>
+            )}
             {user.age && <span className="user-card-age">{user.age}</span>}
           </div>
           <p className="user-card-location">

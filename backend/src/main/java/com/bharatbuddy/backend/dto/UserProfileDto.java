@@ -7,12 +7,14 @@ public class UserProfileDto {
     private Long id;
     private String name;
     private String email;
+    private String phone;
     private Integer age;
     private String state;
     private String bio;
     private String profileImage;
     private boolean online;
     private boolean suspended;
+    private boolean verified;
     private LocalDateTime createdAt;
     private Set<String> roles;
     private Set<String> interests;
@@ -26,6 +28,9 @@ public class UserProfileDto {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
     public Integer getAge() { return age; }
     public void setAge(Integer age) { this.age = age; }
@@ -44,6 +49,9 @@ public class UserProfileDto {
 
     public boolean isSuspended() { return suspended; }
     public void setSuspended(boolean suspended) { this.suspended = suspended; }
+
+    public boolean isVerified() { return verified; }
+    public void setVerified(boolean verified) { this.verified = verified; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

@@ -44,6 +44,8 @@ export function AuthProvider({ children }) {
       const nextUser = payload.user;
       setToken(payload.token);
       setUser(nextUser);
+      localStorage.setItem('bharat-buddy-token', payload.token);
+      localStorage.setItem('bharat-buddy-user', JSON.stringify(nextUser));
       return payload;
     } finally {
       setLoading(false);

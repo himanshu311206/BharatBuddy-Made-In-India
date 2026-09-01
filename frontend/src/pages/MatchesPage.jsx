@@ -113,6 +113,25 @@ export default function MatchesPage() {
         </button>
       </div>
 
+      {/* SAFETY TIP SHIELD BANNER */}
+      <div style={{
+        background: 'linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%)',
+        border: '1px solid #bae6fd',
+        borderRadius: '12px',
+        padding: '12px 16px',
+        marginBottom: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        fontSize: '13px',
+        color: '#0369a1'
+      }}>
+        <i className="fa-solid fa-shield-halved" style={{ fontSize: '20px', color: '#0284c7' }}></i>
+        <div>
+          <strong>BharatBuddy Safety Shield Active:</strong> Never share sensitive details (OTP, passwords, bank numbers) with strangers. Temporary & fake email domains are blocked. Look for the <span style={{ color: '#10b981', fontWeight: 'bold' }}>✓ Verified</span> badge.
+        </div>
+      </div>
+
       {/* TABS */}
       <div className="matches-tabs-bar">
         <button

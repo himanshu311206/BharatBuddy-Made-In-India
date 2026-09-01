@@ -1,0 +1,211 @@
+/* ============================================================
+   BharatBuddy Landing — 05 · Responsive
+   ============================================================ */
+
+/* ---------- ≤ 1024px (tablet) ---------- */
+@media (max-width: 1024px) {
+  .bb-feature {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .bb-feature[data-dir='right'] .bb-feature__visual-wrap {
+    order: 0;
+  }
+
+  .bb-feature__visual-wrap {
+    max-width: 480px;
+  }
+
+  .bb-feature__panel {
+    aspect-ratio: 16 / 11;
+  }
+
+  .bb-aibuddy__layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .bb-trust__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bb-how__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 44px 24px;
+  }
+
+  .bb-how__track {
+    display: none;
+  }
+
+  .bb-footer__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bb-whatis__card--1 {
+    top: 2%;
+    left: 2%;
+  }
+
+  .bb-whatis__card--2 {
+    top: -2%;
+    right: 2%;
+  }
+
+  .bb-whatis__card--6 {
+    left: 0;
+  }
+
+  .bb-whatis__card--3 {
+    right: 0;
+  }
+}
+
+/* ---------- ≤ 768px (mobile) ---------- */
+@media (max-width: 768px) {
+  .bb-nav__links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(300px, 82vw);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 96px 28px 32px;
+    background: rgba(6, 7, 13, 0.97);
+    backdrop-filter: blur(18px);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    transform: translateX(105%);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: -30px 0 80px -20px rgba(0, 0, 0, 0.8);
+  }
+
+  .bb-nav__links.is-open {
+    transform: translateX(0);
+  }
+
+  .bb-nav__link {
+    font-size: 1.05rem;
+    padding: 12px 8px;
+    width: 100%;
+  }
+
+  .bb-nav__burger {
+    display: flex;
+  }
+
+  .bb-nav__login {
+    display: none;
+  }
+
+  .bb-problem__item {
+    grid-template-columns: 44px 1fr;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .bb-whatis__stage {
+    min-height: 520px;
+  }
+
+  .bb-whatis__card {
+    white-space: normal;
+    max-width: 205px;
+    font-size: 0.84rem;
+    padding: 12px 14px;
+  }
+
+  .bb-whatis__card--1 {
+    top: 1%;
+    left: -2%;
+  }
+
+  .bb-whatis__card--2 {
+    top: 0;
+    right: -2%;
+  }
+
+  .bb-whatis__card--3 {
+    right: -2%;
+    top: 48%;
+  }
+
+  .bb-whatis__card--4 {
+    bottom: 4%;
+    right: 0;
+  }
+
+  .bb-whatis__card--5 {
+    bottom: 2%;
+    left: 0;
+  }
+
+  .bb-whatis__card--6 {
+    left: -2%;
+    top: 46%;
+  }
+
+  .bb-whatis__core-ring--2 {
+    width: 260px;
+    height: 260px;
+  }
+
+  .bb-trust__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bb-how__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .bb-bn__legend {
+    position: static;
+    transform: none;
+    justify-content: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .bb-footer__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .bb-footer__bottom {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .bb-cta__actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ---------- ≤ 480px (small phones) ---------- */
+@media (max-width: 480px) {
+  .bb-landing section {
+    padding: 72px 18px;
+  }
+
+  .bb-hero__stats {
+    gap: 18px;
+  }
+
+  .bb-whatis__card {
+    max-width: 170px;
+  }
+
+  .bb-whatis__card small {
+    display: none;
+  }
+
+  .bb-fv__bubble {
+    font-size: 0.8rem;
+    padding: 9px 12px;
+  }
+}

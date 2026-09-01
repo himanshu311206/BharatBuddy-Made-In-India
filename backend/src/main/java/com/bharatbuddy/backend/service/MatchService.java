@@ -125,8 +125,16 @@ public class MatchService {
     }
 
     public Message sendMessage(Message message) {
-        if (message.getMatch() == null || message.getSender() == null || message.getMessage() == null || message.getMessage().isBlank()) {
+        if (message.getMatch() == null || message.getSender() == null) {
             throw new IllegalArgumentException("Invalid message data.");
+        }
+        boolean hasText = message.getMessage() != null && !message.getMessage().isBlank();
+        boolean hasAttachment = message.getAttachmentUrl() != null && !message.getAttachmentUrl().isBlank();
+        if (!hasText && !hasAttachment) {
+            throw new IllegalArgumentException("Message must contain text or a file/photo attachment.");
+        }
+        if (!hasText && hasAttachment) {
+            message.setMessage("IMAGE".equalsIgnoreCase(message.getAttachmentType()) ? "📷 Photo Attachment" : "📁 File Attachment");
         }
         return messageRepository.save(message);
     }

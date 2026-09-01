@@ -73,7 +73,7 @@ export default function ProfilePage() {
 
   const toggleLanguage = (item) => {
     setSelectedLanguages((prev) =>
-      prev.includes(item) ? prev.filter((l) => l !== item) : [...prev, l]
+      prev.includes(item) ? prev.filter((language) => language !== item) : [...prev, item]
     );
   };
 

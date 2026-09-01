@@ -1,0 +1,194 @@
+/* ============================================================
+   BharatBuddy — Cinematic Register (RegisterCinemaPage)
+   Extends auth-premium.css: peek-a-boo layout, stick-stepper,
+   scrollable glass body, pop animations
+   ============================================================ */
+
+/* Tall panel — top-align inside the stage but keep it
+   vertically centered whenever the viewport allows it. */
+.rc-register {
+  align-items: flex-start;
+}
+
+.rc-panel {
+  margin: auto;
+  max-width: 780px;
+  padding-bottom: 30px;
+}
+
+.rc-panel .pa-title {
+  font-size: 1.85rem;
+}
+
+/* ---------- Stepper: icon labels + pop transition ---------- */
+.rc-stepper {
+  gap: 4px;
+  margin: 24px 0 20px;
+  flex-wrap: wrap;
+}
+
+.rc-step-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rc-step-line {
+  width: 34px;
+}
+
+.rc-step-num {
+  width: 30px;
+  height: 30px;
+  font-size: 0.76rem;
+}
+
+.rc-step-item.active .rc-step-num,
+.rc-step-item.completed .rc-step-num {
+  animation: rcNumPop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes rcNumPop {
+  0% { transform: scale(0.4); }
+  58% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+.rc-step-item.active .rc-step-num {
+  box-shadow:
+    0 0 0 5px rgba(255, 107, 53, 0.2),
+    0 8px 22px -8px rgba(255, 107, 53, 0.8);
+}
+
+.rc-step-label i {
+  width: 15px;
+  text-align: center;
+  opacity: 0.8;
+}
+/* ---------- Scrollable glass body ---------- */
+.rc-body {
+  position: relative;
+  max-height: min(54vh, 540px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2px 12px 6px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 143, 61, 0.55) rgba(255, 255, 255, 0.06);
+}
+
+.rc-body::-webkit-scrollbar { width: 8px; }
+.rc-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 99px;
+}
+.rc-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff8f3d, #ff5e62);
+  border-radius: 99px;
+}
+
+/* Step-change transition on the whole body container */
+.rc-step-anim {
+  animation: rcBodyIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes rcBodyIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.995);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Alerts that appear mid-step */
+.rc-fade-in {
+  animation: rcFade 0.4s ease;
+}
+
+@keyframes rcFade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Step 1 trust bar ---------- */
+.rc-hint-bar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  color: #fcd34d;
+  background: rgba(250, 204, 21, 0.08);
+  border: 1px solid rgba(250, 204, 21, 0.22);
+}
+
+.rc-hint-bar i { font-size: 0.9rem; }
+
+/* Field-level warning hints (email/phone) */
+.rc-register .auth-field-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- Footer ---------- */
+.rc-footer {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Two-col rows stay top-aligned inside the scroll body */
+.rc-register .form-row-2col { align-items: start; }
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .rc-panel { max-width: 660px; }
+}
+
+@media (max-width: 768px) {
+  .rc-register {
+    padding: 28px 14px;
+  }
+
+  .rc-panel { max-width: 520px; }
+
+  /* Let the body grow naturally on phones (no inner scroll) */
+  .rc-body {
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .rc-stepper {
+    justify-content: center;
+    margin: 18px 0 16px;
+  }
+
+  .rc-step-line { width: 18px; }
+  .rc-step-group { gap: 4px; }
+}
+
+@media (max-width: 480px) {
+  .rc-panel {
+    padding: 24px 16px 22px;
+  }
+
+  /* Step labels collapse to icons only */
+  .rc-step-label { display: none; }
+}
+
+/* Respect reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .rc-step-anim,
+  .rc-fade-in,
+  .rc-step-item.active .rc-step-num,
+  .rc-step-item.completed .rc-step-num {
+    animation: none;
+  }
+}

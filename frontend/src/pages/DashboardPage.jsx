@@ -87,10 +87,25 @@ export default function DashboardPage() {
           </h1>
           <p className="welcome-subtext">Ready to meet someone new today?</p>
         </div>
+        <div className="dashboard-signal-deck" aria-label="BharatBuddy live network status">
+          <div className="signal-stat">
+            <span className="signal-stat-icon"><i className="fa-solid fa-satellite-dish"></i></span>
+            <span><strong>LIVE</strong><small>Network pulse</small></span>
+          </div>
+          <div className="signal-stat">
+            <span className="signal-stat-icon signal-stat-icon--cyan"><i className="fa-solid fa-bolt"></i></span>
+            <span><strong>24/7</strong><small>Buddy energy</small></span>
+          </div>
+          <div className="signal-stat">
+            <span className="signal-stat-icon signal-stat-icon--violet"><i className="fa-solid fa-route"></i></span>
+            <span><strong>28+</strong><small>States connected</small></span>
+          </div>
+        </div>
       </section>
 
       {/* MAIN HERO CARD */}
       <section className="hero-find-card">
+        <div className="hero-find-card__scanlines" aria-hidden="true"></div>
         <div style={{ marginBottom: '20px' }}>
           <BuddyOrbit3D candidates={onlineUsers} />
         </div>

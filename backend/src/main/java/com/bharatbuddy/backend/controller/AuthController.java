@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -21,7 +22,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody AuthRequest request) {
         UserProfileDto user = authService.register(request);
-        return ResponseEntity.ok(new ApiResponse(true, "Registration successful.", user));
+        return ResponseEntity.ok(new ApiResponse(true, "Registration successful. Welcome to BharatBuddy!", user));
     }
 
     @PostMapping("/login")
@@ -29,4 +30,5 @@ public class AuthController {
         AuthResponse response = authService.authenticate(request.getEmail(), request.getPassword());
         return ResponseEntity.ok(new ApiResponse(true, "Login successful.", response));
     }
+
 }

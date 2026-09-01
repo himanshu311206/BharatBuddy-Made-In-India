@@ -27,6 +27,15 @@ public class Message {
     @Column(nullable = false, length = 2000)
     private String message;
 
+    @Column(length = 2000)
+    private String attachmentUrl;
+
+    @Column(length = 50)
+    private String attachmentType; // IMAGE, DOCUMENT, AUDIO
+
+    @Column(length = 255)
+    private String fileName;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -42,6 +51,15 @@ public class Message {
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
+
+    public String getAttachmentUrl() { return attachmentUrl; }
+    public void setAttachmentUrl(String attachmentUrl) { this.attachmentUrl = attachmentUrl; }
+
+    public String getAttachmentType() { return attachmentType; }
+    public void setAttachmentType(String attachmentType) { this.attachmentType = attachmentType; }
+
+    public String getFileName() { return fileName; }
+    public void setFileName(String fileName) { this.fileName = fileName; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

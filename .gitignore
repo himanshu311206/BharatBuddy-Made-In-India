@@ -19,3 +19,9 @@ Thumbs.db
 *.run.log
 frontend-run.log
 backend-run.log
+
+# Local application data and generated QA artifacts
+backend/data/
+backend/uploads/
+frontend/*-check.png
+landing-check.png

@@ -1,10 +1,12 @@
 package com.bharatbuddy.backend.dto;
 
 public class AiRequest {
+
     private String query;
     private String type;
 
-    public AiRequest() {}
+    public AiRequest() {
+    }
 
     public AiRequest(String query, String type) {
         this.query = query;

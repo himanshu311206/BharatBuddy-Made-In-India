@@ -64,6 +64,7 @@ public class DataSeeder {
                 admin.setState("Delhi");
                 admin.setRoles(java.util.Set.of(Role.ADMIN, Role.USER));
                 admin.setOnline(true);
+                admin.setVerified(true);
                 userRepository.save(admin);
             }
 
@@ -87,6 +88,7 @@ public class DataSeeder {
                     user.setProfileImage("https://api.dicebear.com/7.x/bottts/svg?seed=" + spec.avatarSeed);
                     user.setRoles(java.util.Set.of(Role.USER));
                     user.setOnline(true);
+                    user.setVerified(true);
                     userRepository.save(user);
 
                     for (String interestName : spec.interests) {

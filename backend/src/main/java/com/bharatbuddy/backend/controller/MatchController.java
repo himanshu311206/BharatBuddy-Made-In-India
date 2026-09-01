@@ -72,18 +72,85 @@ public class MatchController {
     }
 
     @PostMapping("/messages")
-    public ApiResponse sendMessage(@RequestBody Message message) {
+    public ApiResponse sendMessage(@RequestBody java.util.Map<String, Object> payload) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByEmail(auth.getName()).orElseThrow();
-        if (message.getMatch() == null || message.getMatch().getId() == null) {
-            throw new IllegalArgumentException("Match is required.");
+
+        Long matchId = null;
+        Long recipientId = null;
+
+        if (payload.get("match") instanceof java.util.Map) {
+            java.util.Map<?, ?> matchMap = (java.util.Map<?, ?>) payload.get("match");
+            if (matchMap.get("id") != null) {
+                try {
+                    matchId = Long.valueOf(matchMap.get("id").toString());
+                } catch (NumberFormatException ignored) {}
+            }
         }
-        Match match = matchRepository.findById(message.getMatch().getId()).orElseThrow(() -> new IllegalArgumentException("Match not found"));
+        if (matchId == null && payload.get("matchId") != null) {
+            try {
+                matchId = Long.valueOf(payload.get("matchId").toString());
+            } catch (NumberFormatException ignored) {}
+        }
+        if (payload.get("recipientId") != null) {
+            try {
+                recipientId = Long.valueOf(payload.get("recipientId").toString());
+            } catch (NumberFormatException ignored) {}
+        }
+
+        Match match = null;
+
+        // 1. Try finding match by matchId
+        if (matchId != null) {
+            match = matchRepository.findById(matchId).orElse(null);
+        }
+
+        // 2. If match not found by matchId, check if target user exists and find/create active match between users
+        if (match == null) {
+            Long targetUserId = recipientId != null ? recipientId : matchId;
+            if (targetUserId != null) {
+                User otherUser = userRepository.findById(targetUserId).orElse(null);
+                if (otherUser != null) {
+                    final User targetUser = otherUser;
+                    match = matchRepository.findActiveBetweenUsers(currentUser, targetUser, java.util.List.of(Match.MatchStatus.ACTIVE))
+                            .orElseGet(() -> {
+                                Match newMatch = new Match();
+                                newMatch.setUser1(currentUser);
+                                newMatch.setUser2(targetUser);
+                                newMatch.setStatus(Match.MatchStatus.ACTIVE);
+                                return matchRepository.save(newMatch);
+                            });
+                }
+            }
+        }
+
+        if (match == null) {
+            // Fallback: If no match found, pick or create active match for currentUser
+            java.util.List<Match> activeMatches = matchRepository.findByUserAndStatusIn(currentUser, java.util.List.of(Match.MatchStatus.ACTIVE));
+            if (!activeMatches.isEmpty()) {
+                match = activeMatches.get(0);
+            } else {
+                throw new IllegalArgumentException("Match not found and unable to find recipient user.");
+            }
+        }
+
         if (!match.getUser1().getId().equals(currentUser.getId()) && !match.getUser2().getId().equals(currentUser.getId())) {
             throw new IllegalArgumentException("You are not authorized to send messages in this match.");
         }
+
+        String textMsg = payload.get("message") != null ? payload.get("message").toString() : "";
+        String attachmentUrl = payload.get("attachmentUrl") != null ? payload.get("attachmentUrl").toString() : null;
+        String attachmentType = payload.get("attachmentType") != null ? payload.get("attachmentType").toString() : null;
+        String fileName = payload.get("fileName") != null ? payload.get("fileName").toString() : null;
+
+        Message message = new Message();
         message.setMatch(match);
         message.setSender(currentUser);
+        message.setMessage(textMsg);
+        message.setAttachmentUrl(attachmentUrl);
+        message.setAttachmentType(attachmentType);
+        message.setFileName(fileName);
+
         Message saved = matchService.sendMessage(message);
 
         // Broadcast over STOMP WebSocket
